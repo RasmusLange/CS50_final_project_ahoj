@@ -64,16 +64,31 @@ def account():
             if not new_password or not new_username:
                 return render_template("account.html", username=username, message="Please specify both new username and password")
             else:
+                db.execute(
+                    "UPDATE users SET username = ?, hash = ? WHERE id= ?", new_username, generate_password_hash(new_password, method='scrypt', salt_length=16), session.get("user_id")
+                )
+                username = db.execute(
+                    "SELECT username FROM users WHERE id = ?", session.get("user_id")
+                )[0].get("username")
                 return render_template("account.html", username=username, message=f"Username changed to {new_username} and password updated!", message_type="good")
         if not change_password and change_username:
             if not new_username:
                 return render_template("account.html", username=username, message="Please specify new username")
             else:
+                db.execute(
+                    "UPDATE users SET username = ? WHERE id = ?", new_username, session.get("user_id")
+                )
+                username = db.execute(
+                    "SELECT username FROM users WHERE id = ?", session.get("user_id")
+                )[0].get("username")
                 return render_template("account.html", username=username, message=f"Username changed to {new_username}!", message_type="good")
         if change_password and not change_username:
             if not new_password:
                 return render_template("account.html", username=username, message="Please specify new password")
             else:
+                db.execute(
+                    "UPDATE users SET hash = ? WHERE id = ?", generate_password_hash(new_password, method='scrypt', salt_length=16), session.get("user_id")
+                )
                 return render_template("account.html", username=username, message=f"Password updated!", message_type="good")
     else:
         return render_template("account.html", username=username)
