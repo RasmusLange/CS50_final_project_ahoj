@@ -107,7 +107,7 @@ def board():
             "UPDATE members SET visit_time = unixepoch() WHERE user_id = ? AND board_id = ?", session.get("user_id"), board_id
         )
         board_name = db.execute(
-            "SELECT board_name FROM boards WHERE id = ?", session.get("user_id")
+            "SELECT board_name FROM boards WHERE id = ?", board_id
         )[0].get("board_name")
         board_messages = db.execute(
             "SELECT message, username, board_id, admin, user_id FROM members JOIN users ON members.user_id = users.id WHERE board_id = ? ", board_id

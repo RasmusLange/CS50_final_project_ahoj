@@ -27,7 +27,9 @@
             {% if session["user_id"] %}
                 <div class="container d-flex justify-content-between">
                     <div>
-                        <a class="nav-link d-inline text-white-50 me-3" href="/">Ahoj</a>
+                        <a class="navbar-brand" href="/">
+                            <img src="/static/ahoj.png" width="30" height="30" alt="">
+                        </a>
                         <a class="nav-link d-inline text-white-50 me-3 text-start" href="/boards">Manage Boards</a>
                         <a class="nav-link d-inline text-white-50 text-start" href="/join">Join Board</a>
                     </div>
@@ -39,7 +41,9 @@
             {% else %}
                 <div class="container d-flex justify-content-between">
                     <div>
-                        <a class="nav-link d-inline text-white-50 me-3" href="/">Ahoj</a>
+                        <a class="navbar-brand" href="/">
+                            <img src="/static/ahoj.png" width="30" height="30" alt="">
+                        </a>
                     </div>
                     <div>
                         <a class="nav-link d-inline text-white-50 me-3" href="/register">Register</a>
@@ -48,14 +52,6 @@
                 </div>
             {% endif %}
         </nav>
-
-        {% if get_flashed_messages() %}
-            <header>
-                <div class="alert alert-primary mb-0 text-center" role="alert">
-                    {{ get_flashed_messages() | join(" ") }}
-                </div>
-            </header>
-        {% endif %}
 
         <main class="container py-5 text-center">
             {% block main %}{% endblock %}
