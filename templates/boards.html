@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Boards
+{% endblock %}
+
+{% block main %}
+    {% if not boards %}
+        {% if not message %}
+        <span></span>
+        <h2>You're currently not member of any boards</h2>
+        <p>Join a board and you'll see it listed here</p>
+        {% else %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+        <h2>You're currently not member of any boards</h2>
+        <p>Join a board and you'll see it listed here</p>
+        {% endif %}
+    {% else %}
+        {% if not message %}
+        <span></span>
+        {% else %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+        {% endif %}
+        <h2>Your boards:</h2>
+        <table class="table table-hover">
+            <thead>
+                <th scope="col">Board Name</th>
+                <th scope="col">Manage Board</th>
+                <th scope="col">Visit Board</th>
+                </tr>
+            </thead>
+            {% for board in boards %}
+            <tbody>
+                <td class="align-middle"><p>{{ board.board_name }}</p></td>
+                <td>
+                    <form action="/boards" method="post">
+                        <button  class="btn btn-dark" type="submit" name="leave" value={{board.id}}>Leave board</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="/board" method="post">
+                        <button  class="btn btn-info" type="submit" name="visit" value={{board.id}}>Visit board</button>
+                    </form>
+                </td>
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}

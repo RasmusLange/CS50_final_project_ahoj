@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    My Account
+{% endblock %}
+
+{% block main %}
+    {% if not message %}
+        <p></p>
+    {% elif message_type == "neutral" %}
+        <div class="alert alert-dark" role="alert">
+            {{ message }}
+        </div>
+    {% elif message_type == "good" %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% else %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% endif %}
+    </div>
+    <form action="/account" method="post">
+        <p>Current user: {{ username }}</p>
+        <div class="mb-3">
+            <br>
+            <div class="check-box">
+                <p>Change password?  </p>
+                <input autocomplete="off" autofocus name="change_password" placeholder="Change password?" type="checkbox">
+            </div>
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="new_password" placeholder="New password" type="password">
+            <br>
+            <br>
+            <div class="check-box">
+                <p>Change username?</p>
+                <input autocomplete="off" autofocus name="change_username" placeholder="Change username?" type="checkbox">
+            </div>
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="new_username" placeholder="New Username" type="text">
+            <br>
+            <br>
+            <button class="btn btn-primary" type="submit">Update Account</button>
+        </div>
+    </form>
+{% endblock %}

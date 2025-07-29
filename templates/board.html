@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Board: {{ board_name }}
+{% endblock %}
+
+{% block main %}
+    <h1>{{ board_name }}</h1>
+    <form action="/board" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="post-message" placeholder="What's on your mind?" type="text">
+            <br>
+            <button class="btn btn-primary" type="submit">Post Message</button>
+        </div>
+         <input type="hidden" name="visit" value="{{ board_id }}">
+    </form>
+    <table class="table table-hover">
+        <thead>
+            <th scope="col">User</th>
+            <th scope="col">Message</th>
+            </tr>
+        </thead>
+        {% for user in board_messages %}
+        <tbody>
+            <td>{{ user.username }}</td>
+            <td>
+                {% if user.message == "!RLDEL!" %}
+                <span></span>
+                {% else %}
+                {{ user.message }}
+                {% endif %}
+            <td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+    <br>
+    <br>
+    <br>
+    {% if current_user.admin == 1 %}
+    <h1>Manage Members</h1>
+    <table class="table table-hover">
+        <thead>
+            <th scope="col">User</th>
+            <th scope="col">Promote</th>
+            <th scope="col">Kick</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            <form action="/board" method="post">
+                {% for user in board_messages %}
+                <tr>
+                    <td class="align-middle">{{ user.username }}</td>
+                    <td class="align-middle text-center">
+                        <button class="btn btn-primary" name="promote" value="{{ user.user_id }}" type="submit" {% if user.username == current_user.username %} disabled {% endif %}>
+                            {% if user.admin == 1 %}
+                            Demote
+                            {% else %}
+                            Promote
+                            {% endif %}
+                        </button>
+                    </td>
+                    <td class="align-middle text-center">
+                        <button class="btn btn-primary" name="kick" value="{{ user.user_id }}" type="submit" {% if user.username == current_user.username %} disabled {% endif %}>Kick</button>
+                    </td>
+                    <input type="hidden" name="visit" value="{{ board_id }}">
+                </tr>
+                {% endfor %}
+            </form>
+        </tbody>
+    </table>
+    {% else %}
+    <span></span>
+    {% endif %}
+{% endblock %}

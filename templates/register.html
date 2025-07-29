@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register New User
+{% endblock %}
+
+{% block main %}
+    {% if not message %}
+    <span></span>
+    {% elif message_type == "good" %}
+    <div class="alert alert-success" role="alert">
+        {{ message }}
+    </div>
+    {% else %}
+    <div class="alert alert-danger" role="alert">
+        {{ message }}
+    </div>
+    {% endif %}
+    <form action="/register" method="post">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" name="username" class="form-control" id="username" aria-describedby="usernameHelp" required>
+            <small id="usernameHelp" class="form-text text-muted">We'll never share your information with anyone else.</small>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" class="form-control" id="password" required>
+        </div>
+        <div class="form-group">
+            <label for="confirmation">Confirm confirmation</label>
+            <input type="password" name="confirmation" class="form-control" id="confirmation" required>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+{% endblock %}

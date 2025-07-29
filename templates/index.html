@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Front page
+{% endblock %}
+
+{% block main %}
+    {% if not message %}
+    <span></span>
+    {% elif message_type == "good" %}
+    <div class="alert alert-success" role="alert">
+            {{ message }}
+    </div>
+    {% else %}
+    <div class="alert alert-danger" role="alert">
+            {{ message }}
+    </div>
+    {% endif %}
+    <h1>Welcome, {{ user }}!</h1>
+    {% if board_messages %}
+    <h2>New messages in your boards:</h2>
+        <table class="table table-hover">
+            <thead>
+                <th scope="col">Board Name</th>
+                <th scope="col">User</th>
+                <th scope="col">Message</th>
+                <th scope="col">Visit Board</th>
+                </tr>
+            </thead>
+            {% for message in board_messages %}
+            <tbody>
+                <td class="align-middle"><p>{{ message.board_name }}</p></td>
+                <td class="align-middle"><p>{{ message.username }}</p></td>
+                <td class="align-middle"><p>{{ message.message }}</p></td>
+                <td>
+                    <form action="/board" method="post">
+                        <button  class="btn btn-info" type="submit" name="visit" value={{message.board_id}}>Visit board</button>
+                    </form>
+                </td>
+                </tr>
+            </tbody>
+        </table>
+    {% endfor %}
+    {% else %}
+    <h2>No new messages. Why not join a <a href="/join">new board</a>?</h2>
+    {% endif %}
+{% endblock %}
